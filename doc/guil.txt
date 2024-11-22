@@ -1,0 +1,70 @@
+Options                                              *mod.insert_header.Options*
+
+  Fields: ~
+    {company}  (string)
+
+
+==============================================================================
+Table of Contents                                                *guil.contents*
+
+Introduction ······················································· |mod.intro|
+Setup ······························································ |mod.setup|
+InsertHeader ··············································· |mod.insert_header|
+
+==============================================================================
+Introduction                                                         *mod.intro*
+
+
+a plugin to automatically generate Xcode style Swift hedaer
+
+there are currently multiple other plugins better suited for generating headers.
+this one was created just to serve the need to get into nvim lua plugin development.
+It will try to extract the user name from git and use macOS username as a backup.
+
+
+==============================================================================
+Setup                                                                *mod.setup*
+
+
+Setup the Module with user specified overrides for settings
+
+
+Module.setup({opts})                                   *mod.insert_header.setup*
+
+  Parameters: ~
+    {opts}  (Options)
+
+  Usage: ~
+>lua
+    return {
+        "https://github.com/ha100/guil.nvim",
+        ft = "swift",
+        lazy = false,
+        config = function()
+            require("guil").setup({
+                company = "ha100"
+            })
+        end,
+        keys = {
+            vim.keymap.set("n", "<leader><F4>", ":Guil generate<cr>", { desc = "generate Xcode style header" })
+        }
+    }
+<
+
+
+==============================================================================
+InsertHeader                                                 *mod.insert_header*
+
+
+Insert Xcode style Swift header at the top of the file
+
+
+Module.insert_header()                         *mod.insert_header.insert_header*
+
+  Usage: ~
+>lua
+    require('guil'):insert_header()
+<
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
