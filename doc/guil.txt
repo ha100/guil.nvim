@@ -1,4 +1,11 @@
-Options                                              *mod.insert_header.Options*
+OptionSet                                              *update_header.OptionSet*
+
+  Fields: ~
+    {contains}  (table<number,boolean>)
+    {new}       (table)
+
+
+Options                                                  *update_header.Options*
 
   Fields: ~
     {company}  (string)
@@ -7,29 +14,33 @@ Options                                              *mod.insert_header.Options*
 ==============================================================================
 Table of Contents                                                *guil.contents*
 
-Introduction ······················································· |mod.intro|
-Setup ······························································ |mod.setup|
-InsertHeader ··············································· |mod.insert_header|
+Introduction ··························································· |intro|
+Setup ·································································· |setup|
+InsertHeader ··················································· |insert_header|
+HasHeader ························································· |has_header|
+CheckHeader ····················································· |check_header|
+UpdateHeader ··················································· |update_header|
 
 ==============================================================================
-Introduction                                                         *mod.intro*
+Introduction                                                             *intro*
 
 
-a plugin to automatically generate Xcode style Swift hedaer
+a plugin to automatically generate Xcode style Swift file header
 
-there are currently multiple other plugins better suited for generating headers.
-this one was created just to serve the need to get into nvim lua plugin development.
-It will try to extract the user name from git and use macOS username as a backup.
+Inserts the header when creating a new swift file. Detects module name for
+SPM and Tuist project structure. Username data is extracted from git and
+macOS username is used as a backup. If the header is present when opening
+an existing file, validation checks are performed and visual cues are given.
 
 
 ==============================================================================
-Setup                                                                *mod.setup*
+Setup                                                                    *setup*
 
 
 Setup the Module with user specified overrides for settings
 
 
-Module.setup({opts})                                   *mod.insert_header.setup*
+Module.setup({opts})                                       *update_header.setup*
 
   Parameters: ~
     {opts}  (Options)
@@ -53,18 +64,51 @@ Module.setup({opts})                                   *mod.insert_header.setup*
 
 
 ==============================================================================
-InsertHeader                                                 *mod.insert_header*
+InsertHeader                                                     *insert_header*
 
 
 Insert Xcode style Swift header at the top of the file
 
 
-Module.insert_header()                         *mod.insert_header.insert_header*
+Module.insert_header()                             *update_header.insert_header*
+  @usage :Guil generate<cr>
 
-  Usage: ~
->lua
-    require('guil'):insert_header()
-<
+
+==============================================================================
+HasHeader                                                           *has_header*
+
+
+Check whether current buffer has header comment present
+
+
+Module.has_header()                                   *update_header.has_header*
+
+  Returns: ~
+    (boolean)
+
+
+==============================================================================
+CheckHeader                                                       *check_header*
+
+
+Check which parts of the header comment are not compliant and return an OptionSet
+Mark the non-compliant parts with red color as a visual cue for user.
+
+
+Module.check_header()                               *update_header.check_header*
+
+  Returns: ~
+    (OptionSet)
+
+
+==============================================================================
+UpdateHeader                                                     *update_header*
+
+
+Update non-compliant parts of a header comment with valid info
+
+
+Module.update_header()                             *update_header.update_header*
 
 
 vim:tw=78:ts=8:noet:ft=help:norl:

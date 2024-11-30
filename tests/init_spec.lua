@@ -5,8 +5,10 @@ local current_dir = vim.fn.expand("%:p:h")
 local file_path = current_dir .. "/tests/mocks/Test.swift"
 
 describe("guil", function()
+    local module = require("guil")
+
     before_each(function()
-        require("guil").setup({ company = "ha100" })
+        module.setup({ company = "ha100" })
     end)
 
     after_each(function()
@@ -43,6 +45,23 @@ describe("guil", function()
         local content = helper.read_file(file_path)
         local template = helper.update_dates(helper.template)
         eq(template, content)
+    end)
+
+    it("updates header for invalid header data", function()
+        local from_path = current_dir .. "/tests/mocks/mockInvalid.swift"
+        os.execute(('cp "%s" "%s"'):format(from_path, file_path))
+
+        vim.cmd("edit " .. file_path)
+        local bufnameOrigo = vim.fn.bufname("%")
+        local bufOrigo = vim.fn.bufnr(bufnameOrigo)
+        vim.cmd("Guil generate")
+        vim.api.nvim_buf_call(bufOrigo, function()
+            vim.cmd("write!")
+            vim.cmd("bdelete")
+        end)
+
+        local content = helper.read_file(file_path)
+        eq(helper.templateValid, content)
     end)
 end)
 

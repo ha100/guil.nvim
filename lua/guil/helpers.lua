@@ -67,4 +67,17 @@ Helpers.username = function()
     return name
 end
 
+-- Update the specified part of the header comment with a new value
+--
+---@param lines table<number, string>: Original header comment string as table of lines
+---@param line number: Line number to update
+---@param regex string: Pattern to use to update
+---@param to string: replace the regex matched value with this value
+Helpers.update = function(lines, line, regex, to)
+    local buf = vim.api.nvim_get_current_buf()
+    local from = lines[line]:match(regex)
+    local updated_line = lines[line]:gsub(from, to)
+    vim.api.nvim_buf_set_lines(buf, line - 1, line, false, { updated_line })
+end
+
 return Helpers
