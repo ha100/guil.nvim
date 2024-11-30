@@ -2,6 +2,15 @@ local os = require("os")
 
 local Helper = {}
 
+Helper.templateValid = [[//
+//  Test.swift
+//  guil.nvim
+//
+//  Created by ha100 on 30/11/2024.
+//  Copyright © 2024 ha100. All rights reserved.
+//
+]]
+
 Helper.templateNew = [[//
 //  Test.swift
 //  guil.nvim
